@@ -38,6 +38,7 @@ export default function Idea(idea: IIdea) {
           validationSchema={titleSchema}
           onSubmit={(values) => {
             idea.title = values.title;
+            idea.lastUpdated = new Date();
             setIsEditTitle(!isEditTitle);
           }}
         >
@@ -68,6 +69,7 @@ export default function Idea(idea: IIdea) {
           validationSchema={descriptionSchema}
           onSubmit={(values) => {
             idea.description = values.description;
+            idea.lastUpdated = new Date();
             setIsEditDescription(!isEditDescription);
           }}
         >
