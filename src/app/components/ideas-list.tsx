@@ -42,7 +42,7 @@ export default function IdeasList() {
   ) : (
     <>
       {ideas.map((idea, i) => (
-        <Idea {...idea} />
+        <Idea key={i} {...idea} />
       ))}
     </>
   );

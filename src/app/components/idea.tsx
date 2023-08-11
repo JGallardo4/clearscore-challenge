@@ -8,8 +8,11 @@ export default function Idea(idea: IIdea) {
 
   return (
     <>
-      {isEditTitle ? (
-        <h1>{idea.title}</h1>
+      {!isEditTitle ? (
+        <>
+          <h1>{idea.title}</h1>
+          <button>Edit</button>
+        </>
       ) : (
         <form>
           <label htmlFor='title'>Title:</label>
@@ -19,8 +22,11 @@ export default function Idea(idea: IIdea) {
         </form>
       )}
 
-      {isEditDescription ? (
-        <p>{idea.description}</p>
+      {!isEditDescription ? (
+        <>
+          <p>{idea.description}</p>
+          <button>Edit</button>
+        </>
       ) : (
         <form>
           <label htmlFor='description'>Description:</label>
