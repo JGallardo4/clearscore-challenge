@@ -1,12 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import ideaReducer from '@/redux/reducers/ideaSlice';
+import ideasReducer from '@/redux/ideasSlice';
 
 const store = configureStore({
     reducer: {
-        reducer: rootReducer,
+        ideas: ideasReducer,
     }
 })
 
 export type RootState = ReturnType<typeof store.getState>
-
-export default store
+export type AppDispatch = typeof store.dispatch
