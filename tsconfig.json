@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-    "typeRoots": ["./types", "./node_modules/@types"],
+    "typeRoots": [
+      "./types",
+      "./node_modules/@types"
+    ],
     "target": "ESNext",
     "lib": [
       "dom",
@@ -22,6 +25,9 @@
     "plugins": [
       {
         "name": "next"
+      },
+      {
+        "name": "typescript-tslint-plugin"
       }
     ],
     "baseUrl": ".",
