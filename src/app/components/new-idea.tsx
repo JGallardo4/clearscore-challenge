@@ -5,12 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
 export default function NewIdea() {
-  const [newIdea, setNewIdea] = useState<IIdea>({
-    id: 1,
-    title: 'Idea 1',
-    description: 'Description',
-    lastUpdated: new Date(),
-  });
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const MAX_CHARACTERS_DESCRIPTION = 140;
   const ideaSchema = Yup.object().shape({
@@ -30,24 +25,31 @@ export default function NewIdea() {
 
   return (
     <>
-      <button onClick={() => {}}>New idea</button>
+      {!isOpen ?
+        <button onClick={() => { setIsOpen(true) }}>New idea</button> : <>
+          <button onClick={() => { setIsOpen(false) }}>Cancel</button>
 
-      <Formik
-        initialValues={{ title: newIdea.title }}
-        validationSchema={ideaSchema}
-        onSubmit={(values) => {
-          // Update store
-        }}
-      >
-        {({ errors, touched }) => (
-          <Form>
-            <Field type='text' name='title' />{' '}
-            {touched.title && errors.title && <div>{errors.title}</div>}
-            <button type='submit'>Save</button>
-            <button type='reset'>Cancel</button>
-          </Form>
-        )}
-      </Formik>
+          <Formik
+            initialValues={{ title: 'New title', description: "New description" }}
+            validationSchema={ideaSchema}
+            onSubmit={(values) => {
+              // Update store
+            }}
+          >
+            {({ errors, touched }) => (
+              <Form>
+                <h1>Title</h1>
+                <Field type='text' name='title' />
+                {touched.title && errors.title && <div>{errors.title}</div>}
+
+                <h1>Description</h1>
+                <Field type='text' name='description' />
+                {touched.description && errors.description && <div>{errors.description}</div>}
+
+                <button type='submit'>Save</button>
+              </Form>
+            )}
+          </Formik></>}
     </>
   );
 }

@@ -1,16 +1,23 @@
+'use client'
+
 import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '@/redux/store';
 
-// Define a type for the slice state
 interface IdeasState {
   ideas: Array<IIdea>;
 }
 
-// Define the initial state using that type
-const initialState: IdeasState = JSON.parse(
-  localStorage.getItem('ideas') || '{ideas: []}'
-);
+// const initialState: IdeasState = JSON.parse(
+//   localStorage.getItem('ideas') || '{ideas: []}'
+// );
+
+const initialState: IdeasState = { ideas: [
+  {
+    id: 1, 
+    title: "Title", 
+    description: "Description", 
+    lastUpdated: new Date()
+  }] };
 
 export const ideaSlice = createSlice({
   name: 'ideas',
