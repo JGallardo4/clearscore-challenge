@@ -4,6 +4,7 @@ import { useState } from 'react';
 import styles from '@/styles/idea.module.sass';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import { FaEdit } from "react-icons/fa";
 
 export default function Idea(idea: IIdea) {
   const [isEditTitle, setIsEditTitle] = useState<boolean>(false);
@@ -26,12 +27,14 @@ export default function Idea(idea: IIdea) {
 
   return (
     <article className={styles.idea}>
-      <h1>Title</h1>
+      <h1 className={styles.label}>Title</h1>
       {!isEditTitle ? (
-        <>
-          <p>{idea.title}</p>
-          <button onClick={() => setIsEditTitle(!isEditTitle)}>Edit</button>
-        </>
+        <div className={styles.labelContainer}>
+          <p className={styles.title}>{idea.title}</p>
+          <button className={styles.editButton} onClick={() => setIsEditTitle(!isEditTitle)}>
+            <FaEdit />
+          </button>
+        </div>
       ) : (
         <Formik
           initialValues={{ title: idea.title }}
@@ -55,14 +58,14 @@ export default function Idea(idea: IIdea) {
         </Formik>
       )}
 
-      <h1>Description</h1>
+      <h1 className={styles.label}>Description</h1>
       {!isEditDescription ? (
-        <>
-          <p>{idea.description}</p>
-          <button onClick={() => setIsEditDescription(!isEditDescription)}>
-            Edit
+        <div className={styles.labelContainer}>
+          <p className={styles.description}>{idea.description}</p>
+          <button className={styles.editButton} onClick={() => setIsEditDescription(!isEditDescription)}>
+            <FaEdit />
           </button>
-        </>
+        </div>
       ) : (
         <Formik
           initialValues={{ description: idea.description }}
@@ -91,7 +94,7 @@ export default function Idea(idea: IIdea) {
         </Formik>
       )}
 
-      <p>{idea.lastUpdated.toString()}</p>
+      <p>{idea.lastUpdated.toLocaleString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric" })}</p>
     </article>
   );
 }

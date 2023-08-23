@@ -1,9 +1,19 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import ReduxProvider from './redux/ReduxProvider'
+import { Instrument_Sans, Handjet } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
+const instrumentSans = Instrument_Sans({ 
+    subsets: ['latin'], 
+    display: 'swap',
+    variable: '--font-instrument-sans',
+})
+
+const handjet = Handjet({ 
+    subsets: ['latin'], 
+    display: 'swap',
+    variable: '--font-handjet',
+})
 
 export const metadata: Metadata = {
   title: 'Ideas',
@@ -17,8 +27,8 @@ export default function RootLayout({
 }) {
   return (
     <ReduxProvider>
-      <html lang="en">
-        <body className={inter.className}>{children}</body>
+      <html lang="en" className={`${instrumentSans.variable} ${handjet.variable}`}>
+        <body>{children}</body>
       </html>
     </ReduxProvider>
   )

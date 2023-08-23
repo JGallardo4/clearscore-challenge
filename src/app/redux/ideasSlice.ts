@@ -14,8 +14,8 @@ interface IdeasState {
 const initialState: IdeasState = { ideas: [
   {
     id: 1, 
-    title: "Title", 
-    description: "Description", 
+    title: "My first idea", 
+    description: "This is the first idea", 
     lastUpdated: new Date()
   }] };
 
