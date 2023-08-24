@@ -3,10 +3,15 @@
 import Idea from './idea';
 import * as Yup from 'yup';
 import NewIdea from './new-idea';
-import { useAppSelector } from '@/hooks';
 
 export default function IdeasList() {
-  const ideas = useAppSelector((state) => state.ideas.ideas);
+  const ideas = [
+    {
+      id: 1,
+      title: "My first idea",
+      description: "This is the first idea",
+      lastUpdated: new Date()
+    }];
 
   const MAX_CHARACTERS_DESCRIPTION = 140;
   const ideaSchema = Yup.object().shape({
