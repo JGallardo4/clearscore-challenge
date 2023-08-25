@@ -1,17 +1,26 @@
 'use client';
 
-import Idea from './idea';
+import { Idea } from '@/components/idea';
 import * as Yup from 'yup';
-import NewIdea from './new-idea';
+import { NewIdea } from './new-idea';
+import { useState } from 'react';
 
 export default function IdeasList() {
-  const ideas = [
+  const [ideas, setIdeas] = useState<IIdea[]>([
     {
       id: 1,
       title: "My first idea",
       description: "This is the first idea",
       lastUpdated: new Date()
-    }];
+    }]);
+
+  function addIdea(idea: IIdea) {
+    setIdeas([...ideas, { ...idea, lastUpdated: new Date() }])
+  }
+
+  function removeIdea(ideaId: number) {
+    setIdeas(ideas.filter((idea) => idea.id != ideaId))
+  }
 
   const MAX_CHARACTERS_DESCRIPTION = 140;
   const ideaSchema = Yup.object().shape({
@@ -33,9 +42,9 @@ export default function IdeasList() {
     <p>No items found</p>
   ) : (
     <>
-      <NewIdea />
+      <NewIdea addIdea={addIdea} />
       {ideas.map((idea, i) => (
-        <Idea key={i} {...idea} />
+        <Idea idea={idea} removeIdea={removeIdea} key={i} />
       ))}
     </>
   );

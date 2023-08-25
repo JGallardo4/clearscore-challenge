@@ -3,12 +3,14 @@
 import { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
-import { disconnect } from 'process';
+import React, { FunctionComponent } from 'react'
 
-export default function NewIdea() {
+type Props = {
+  addIdea: Function
+}
+
+export const NewIdea: FunctionComponent<Props> = ({ addIdea }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const dispatch = useDispatch();
   const MAX_CHARACTERS_DESCRIPTION = 140;
   const ideaSchema = Yup.object().shape({
     title: Yup.string()
@@ -35,7 +37,7 @@ export default function NewIdea() {
             initialValues={{ title: 'New title', description: "New description" }}
             validationSchema={ideaSchema}
             onSubmit={(values) => {
-              dispatch(createNewIdea(values))
+              addIdea({ ...values })
             }}
           >
             {({ errors, touched }) => (

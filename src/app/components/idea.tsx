@@ -4,9 +4,15 @@ import { useState } from 'react';
 import styles from '@/styles/idea.module.sass';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import React, { FunctionComponent } from 'react'
 
-export default function Idea(idea: IIdea) {
+type Props = {
+  idea: IIdea,
+  removeIdea: Function
+}
+
+export const Idea: FunctionComponent<Props> = ({ idea, removeIdea }) => {
   const [isEditTitle, setIsEditTitle] = useState<boolean>(false);
   const [isEditDescription, setIsEditDescription] = useState<boolean>(false);
   const MAX_CHARACTERS_DESCRIPTION = 140;
@@ -85,7 +91,7 @@ export default function Idea(idea: IIdea) {
               <button type='submit'>Save</button>
               <button
                 type='submit'
-                onClick={() => setIsEditDescription(!isEditDescription)}
+                onClick={() => setIsEditDescription(false)}
               >
                 Cancel
               </button>
@@ -94,7 +100,10 @@ export default function Idea(idea: IIdea) {
         </Formik>
       )}
 
-      <p>{idea.lastUpdated.toLocaleString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric" })}</p>
+      <p className={styles.lastUpdated}>{idea.lastUpdated.toLocaleString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric" })}</p>
+      <button className={styles.deleteButton} onClick={() => removeIdea(idea.id)}>
+        <FaTrash />
+      </button>
     </article>
   );
 }
