@@ -1,7 +1,6 @@
 'use client';
 
 import { Idea } from '@/components/idea';
-import * as Yup from 'yup';
 import { NewIdea } from './new-idea';
 import { useState } from 'react';
 
@@ -22,14 +21,16 @@ export default function IdeasList() {
     setIdeas(ideas.filter((idea) => idea.id != ideaId))
   }
 
-  return !ideas ? (
-    <p>No items found</p>
-  ) : (
+  return (
     <>
       <NewIdea addIdea={addIdea} />
+
+      ideas ?
       {ideas.map((idea, i) => (
         <Idea idea={idea} removeIdea={removeIdea} key={i} />
       ))}
+      :
+      <p>No items found</p>
     </>
   );
 }
