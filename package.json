@@ -9,13 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@types/node": "20.4.9",
-    "@types/react": "18.2.19",
-    "@types/react-dom": "18.2.7",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.13",
     "formik": "^2.4.3",
-    "mobx": "^6.10.0",
     "next": "13.4.13",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -25,6 +21,9 @@
     "yup": "^1.2.0"
   },
   "devDependencies": {
-    "sass": "^1.65.1"
+    "sass": "^1.65.1",
+    "@types/node": "20.4.9",
+    "@types/react": "18.2.19",
+    "@types/react-dom": "18.2.7",
   }
 }
