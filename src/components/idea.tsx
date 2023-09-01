@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import styles from '@/styles/idea.module.sass';
-import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
+import { useState } from "react";
+import styles from "@/styles/idea.module.sass";
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent } from "react";
 
 type Props = {
-  idea: IIdea,
-  removeIdea: Function
-}
+  idea: IIdea;
+  removeIdea: Function;
+};
 
 export const Idea: FunctionComponent<Props> = ({ idea, removeIdea }) => {
   const [isEditTitle, setIsEditTitle] = useState<boolean>(false);
@@ -19,16 +19,19 @@ export const Idea: FunctionComponent<Props> = ({ idea, removeIdea }) => {
 
   const titleSchema = Yup.object().shape({
     title: Yup.string()
-      .min(2, 'Too Short!')
-      .max(20, 'Too Long!')
-      .required('Required'),
+      .min(2, "Too Short!")
+      .max(20, "Too Long!")
+      .required("Required"),
   });
 
   const descriptionSchema = Yup.object().shape({
     description: Yup.string()
-      .min(2, 'Too Short!')
-      .max(MAX_CHARACTERS_DESCRIPTION, `Please enter a maximum of ${MAX_CHARACTERS_DESCRIPTION} characters`)
-      .required('Required'),
+      .min(2, "Too Short!")
+      .max(
+        MAX_CHARACTERS_DESCRIPTION,
+        `Please enter a maximum of ${MAX_CHARACTERS_DESCRIPTION} characters`,
+      )
+      .required("Required"),
   });
 
   return (
@@ -37,7 +40,10 @@ export const Idea: FunctionComponent<Props> = ({ idea, removeIdea }) => {
       {!isEditTitle ? (
         <div className={styles.labelContainer}>
           <p className={styles.title}>{idea.title}</p>
-          <button className={styles.editButton} onClick={() => setIsEditTitle(!isEditTitle)}>
+          <button
+            className={styles.editButton}
+            onClick={() => setIsEditTitle(!isEditTitle)}
+          >
             <FaEdit />
           </button>
         </div>
@@ -53,10 +59,10 @@ export const Idea: FunctionComponent<Props> = ({ idea, removeIdea }) => {
         >
           {({ errors, touched }) => (
             <Form>
-              <Field type='text' name='title' />{' '}
+              <Field type="text" name="title" />{" "}
               {touched.title && errors.title && <div>{errors.title}</div>}
-              <button type='submit'>Save</button>
-              <button type='reset' onClick={() => setIsEditTitle(!isEditTitle)}>
+              <button type="submit">Save</button>
+              <button type="reset" onClick={() => setIsEditTitle(!isEditTitle)}>
                 Cancel
               </button>
             </Form>
@@ -68,7 +74,10 @@ export const Idea: FunctionComponent<Props> = ({ idea, removeIdea }) => {
       {!isEditDescription ? (
         <div className={styles.labelContainer}>
           <p className={styles.description}>{idea.description}</p>
-          <button className={styles.editButton} onClick={() => setIsEditDescription(!isEditDescription)}>
+          <button
+            className={styles.editButton}
+            onClick={() => setIsEditDescription(!isEditDescription)}
+          >
             <FaEdit />
           </button>
         </div>
@@ -84,15 +93,12 @@ export const Idea: FunctionComponent<Props> = ({ idea, removeIdea }) => {
         >
           {({ errors, touched }) => (
             <Form>
-              <Field type='text' name='description' />
+              <Field type="text" name="description" />
               {touched.description && errors.description && (
                 <div>{errors.description}</div>
               )}
-              <button type='submit'>Save</button>
-              <button
-                type='submit'
-                onClick={() => setIsEditDescription(false)}
-              >
+              <button type="submit">Save</button>
+              <button type="submit" onClick={() => setIsEditDescription(false)}>
                 Cancel
               </button>
             </Form>
@@ -100,10 +106,22 @@ export const Idea: FunctionComponent<Props> = ({ idea, removeIdea }) => {
         </Formik>
       )}
 
-      <p className={styles.lastUpdated}>{idea.lastUpdated.toLocaleString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric" })}</p>
-      <button className={styles.deleteButton} onClick={() => removeIdea(idea.id)}>
+      <p className={styles.lastUpdated}>
+        {idea.lastUpdated.toLocaleString("en-us", {
+          weekday: "long",
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+        })}
+      </p>
+      <button
+        className={styles.deleteButton}
+        onClick={() => removeIdea(idea.id)}
+      >
         <FaTrash />
       </button>
     </article>
   );
-}
+};

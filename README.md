@@ -1,6 +1,7 @@
 # Features
 
 ## App
+
 X Create idea
 X Update idea
 X Delete idea
@@ -15,6 +16,7 @@ X Add a character countdown as the user is approaching the limit of their descri
 X Add an unobtrusive notification when an update is made to a tile.
 
 ## Idea
+
 X Title (Editable inline)
 X Description (140 characters max.) (Editable inline)
 X Last updated
