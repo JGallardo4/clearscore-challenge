@@ -4,6 +4,7 @@ import {
   ReactNode,
   SetStateAction,
   useContext,
+  useEffect,
   useState,
 } from 'react';
 
@@ -27,8 +28,18 @@ export default function IdeasContextProvider({
       title: 'My first idea',
       description: 'This is the first idea',
       lastUpdated: new Date(),
-    }
+    },
   ]);
+
+  useEffect(() => {
+    const savedIdeas = localStorage.getItem('ideas');
+    const initialValue = JSON.parse(savedIdeas as string);
+    setIdeas(initialValue);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('ideas', JSON.stringify(ideas));
+  }, [ideas]);
 
   return (
     <IdeasContext.Provider value={{ ideas, setIdeas }}>
