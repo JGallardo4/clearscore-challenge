@@ -23,11 +23,11 @@ export default function IdeasContextProvider({
 }: IdeasContextProviderProps) {
   const [ideas, setIdeas] = useState<IIdea[]>([
     {
-      id: 1,
+      id: 0,
       title: 'My first idea',
       description: 'This is the first idea',
       lastUpdated: new Date(),
-    },
+    }
   ]);
 
   return (

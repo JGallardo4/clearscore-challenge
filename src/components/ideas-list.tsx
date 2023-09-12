@@ -1,33 +1,29 @@
-"use client";
+'use client';
 
-import { Idea } from "src/components/idea";
-import { useIdeasContext } from "src/contexts/context";
-import { NewIdea } from "./new-idea";
+import { useIdeasContext } from 'src/contexts/IdeasContext';
+import Idea from './idea';
+import IdeaForm from './idea-form';
+
+function NewIdea() {
+  return (
+    <IdeaForm
+      isNewIdea={true}
+      ideaId={5}
+    />
+  );
+}
 
 export default function IdeasList() {
-  const {ideas, setIdeas} = useIdeasContext();
-
-  function addIdea(idea: IIdea) {
-    setIdeas([
-      ...ideas,
-      { ...idea, lastUpdated: new Date() },
-    ]);
-  }
-
-  function removeIdea(ideaId: number) {
-    setIdeas(
-      ideas.filter((idea: IIdea) => idea.id != ideaId),
-    );
-  }
+  const { ideas } = useIdeasContext();
 
   return (
     <>
-      <NewIdea addIdea={addIdea} />
-      ideas ?
-      {ideas.map((idea: IIdea, i: number) => (
-        <Idea idea={idea} removeIdea={removeIdea} key={i} />
-      ))}
-      :<p>No items found</p>
+      <NewIdea />
+      {ideas ? (
+        ideas.map((idea: IIdea) => <Idea ideaId={idea.id} />)
+      ) : (
+        <p>No items found</p>
+      )}
     </>
   );
 }

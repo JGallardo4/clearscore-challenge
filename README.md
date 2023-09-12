@@ -2,7 +2,7 @@
 
 ## App
 
-X Create idea
+✔ Create idea
 X Update idea
 X Delete idea
 X Test suite

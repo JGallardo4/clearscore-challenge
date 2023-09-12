@@ -1,127 +1,65 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import styles from "@/styles/idea.module.sass";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import React, { FunctionComponent } from "react";
+import styles from '@/styles/idea.module.sass';
+import { useIdeasContext } from '@/contexts/IdeasContext';
+import { useState } from 'react';
+import IdeaForm from './idea-form';
 
-type Props = {
-  idea: IIdea;
-  removeIdea: Function;
-};
+type IdeaProps = { ideaId: number };
+export default function Idea({ ideaId }: IdeaProps) {
+  const { ideas, setIdeas } = useIdeasContext();
+  const idea = ideas.find((i) => i.id === ideaId);
+  const [isEdit, setIsEdit] = useState(false);
 
-export const Idea: FunctionComponent<Props> = ({ idea, removeIdea }) => {
-  const [isEditTitle, setIsEditTitle] = useState<boolean>(false);
-  const [isEditDescription, setIsEditDescription] = useState<boolean>(false);
-  const MAX_CHARACTERS_DESCRIPTION = 140;
+  if (idea === undefined) {
+    throw new Error(`Idea ID: ${ideaId} does not exist:\n${ideas}`);
+  }
 
-  const titleSchema = Yup.object().shape({
-    title: Yup.string()
-      .min(2, "Too Short!")
-      .max(20, "Too Long!")
-      .required("Required"),
-  });
+  function removeIdea(ideaId: number) {
+    setIdeas(ideas.filter((idea: IIdea) => idea.id != ideaId));
+  }
 
-  const descriptionSchema = Yup.object().shape({
-    description: Yup.string()
-      .min(2, "Too Short!")
-      .max(
-        MAX_CHARACTERS_DESCRIPTION,
-        `Please enter a maximum of ${MAX_CHARACTERS_DESCRIPTION} characters`,
-      )
-      .required("Required"),
-  });
-
-  return (
+  return isEdit ? (
+    <>
+      <button onClick={() => setIsEdit(false)}>
+        <p>Cancel</p>
+      </button>
+      <IdeaForm isNewIdea={false} ideaId={idea.id} />
+    </>
+  ) : (
     <article className={styles.idea}>
-      <h1 className={styles.label}>Title</h1>
-      {!isEditTitle ? (
-        <div className={styles.labelContainer}>
-          <p className={styles.title}>{idea.title}</p>
-          <button
-            className={styles.editButton}
-            onClick={() => setIsEditTitle(!isEditTitle)}
-          >
-            <FaEdit />
-          </button>
-        </div>
-      ) : (
-        <Formik
-          initialValues={{ title: idea.title }}
-          validationSchema={titleSchema}
-          onSubmit={(values) => {
-            idea.title = values.title;
-            idea.lastUpdated = new Date();
-            setIsEditTitle(!isEditTitle);
-          }}
-        >
-          {({ errors, touched }) => (
-            <Form>
-              <Field type="text" name="title" />{" "}
-              {touched.title && errors.title && <div>{errors.title}</div>}
-              <button type="submit">Save</button>
-              <button type="reset" onClick={() => setIsEditTitle(!isEditTitle)}>
-                Cancel
-              </button>
-            </Form>
-          )}
-        </Formik>
-      )}
+      <button onClick={() => setIsEdit(true)}>
+        <p>Edit</p>
+      </button>
 
-      <h1 className={styles.label}>Description</h1>
-      {!isEditDescription ? (
-        <div className={styles.labelContainer}>
-          <p className={styles.description}>{idea.description}</p>
-          <button
-            className={styles.editButton}
-            onClick={() => setIsEditDescription(!isEditDescription)}
-          >
-            <FaEdit />
-          </button>
-        </div>
-      ) : (
-        <Formik
-          initialValues={{ description: idea.description }}
-          validationSchema={descriptionSchema}
-          onSubmit={(values) => {
-            idea.description = values.description;
-            idea.lastUpdated = new Date();
-            setIsEditDescription(!isEditDescription);
-          }}
-        >
-          {({ errors, touched }) => (
-            <Form>
-              <Field type="text" name="description" />
-              {touched.description && errors.description && (
-                <div>{errors.description}</div>
-              )}
-              <button type="submit">Save</button>
-              <button type="submit" onClick={() => setIsEditDescription(false)}>
-                Cancel
-              </button>
-            </Form>
-          )}
-        </Formik>
-      )}
-
-      <p className={styles.lastUpdated}>
-        {idea.lastUpdated.toLocaleString("en-us", {
-          weekday: "long",
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-          hour: "numeric",
-          minute: "numeric",
-        })}
-      </p>
       <button
         className={styles.deleteButton}
         onClick={() => removeIdea(idea.id)}
       >
-        <FaTrash />
+        Delete
       </button>
+
+      {/* Title */}
+      <div className={styles.labelContainer}>
+        <p className={styles.title}>{idea.title}</p>
+      </div>
+
+      {/* Description */}
+      <div className={styles.labelContainer}>
+        <p className={styles.description}>{idea.description}</p>
+      </div>
+
+      {/* Last Updated */}
+      <p className={styles.lastUpdated}>
+        {idea.lastUpdated.toLocaleString('en-us', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+        })}
+      </p>
     </article>
   );
-};
+}
