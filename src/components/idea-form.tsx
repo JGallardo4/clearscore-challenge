@@ -1,3 +1,5 @@
+'use client';
+
 import { useFormik } from 'formik';
 import styles from '@/styles/idea.module.sass';
 import { useState } from 'react';
@@ -39,14 +41,18 @@ export default function IdeaForm({ isNewIdea, ideaId }: IdeaFormProps) {
         ]);
       } else {
         let newIdeas = ideas.map((idea) => {
-          if (idea.id === ideaId)
+          if (idea.id === ideaId) {
             return {
               ...idea,
               title: values.title,
               description: values.description,
               lastUpdated: new Date(),
             };
+          } else {
+            return idea;
+          }
         }) as IIdea[];
+
         setIdeas(newIdeas);
       }
     },
@@ -58,7 +64,7 @@ export default function IdeaForm({ isNewIdea, ideaId }: IdeaFormProps) {
         setIsOpen(true);
       }}
     >
-      +
+      {isNewIdea ? '+' : 'Edit'}
     </button>
   ) : (
     <>

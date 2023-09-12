@@ -9,7 +9,6 @@ type IdeaProps = { ideaId: number };
 export default function Idea({ ideaId }: IdeaProps) {
   const { ideas, setIdeas } = useIdeasContext();
   const idea = ideas.find((i) => i.id === ideaId);
-  const [isEdit, setIsEdit] = useState(false);
 
   if (idea === undefined) {
     throw new Error(`Idea ID: ${ideaId} does not exist:\n${ideas}`);
@@ -19,47 +18,40 @@ export default function Idea({ ideaId }: IdeaProps) {
     setIdeas(ideas.filter((idea: IIdea) => idea.id != ideaId));
   }
 
-  return isEdit ? (
+  return (
     <>
-      <button onClick={() => setIsEdit(false)}>
-        <p>Cancel</p>
-      </button>
       <IdeaForm isNewIdea={false} ideaId={idea.id} />
+
+      <article className={styles.idea}>
+        <button
+          className={styles.deleteButton}
+          onClick={() => removeIdea(idea.id)}
+        >
+          Delete
+        </button>
+
+        {/* Title */}
+        <div className={styles.labelContainer}>
+          <p className={styles.title}>{idea.title}</p>
+        </div>
+
+        {/* Description */}
+        <div className={styles.labelContainer}>
+          <p className={styles.description}>{idea.description}</p>
+        </div>
+
+        {/* Last Updated */}
+        <p className={styles.lastUpdated}>
+          {idea.lastUpdated.toLocaleString('en-us', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+          })}
+        </p>
+      </article>
     </>
-  ) : (
-    <article className={styles.idea}>
-      <button onClick={() => setIsEdit(true)}>
-        <p>Edit</p>
-      </button>
-
-      <button
-        className={styles.deleteButton}
-        onClick={() => removeIdea(idea.id)}
-      >
-        Delete
-      </button>
-
-      {/* Title */}
-      <div className={styles.labelContainer}>
-        <p className={styles.title}>{idea.title}</p>
-      </div>
-
-      {/* Description */}
-      <div className={styles.labelContainer}>
-        <p className={styles.description}>{idea.description}</p>
-      </div>
-
-      {/* Last Updated */}
-      <p className={styles.lastUpdated}>
-        {idea.lastUpdated.toLocaleString('en-us', {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-          hour: 'numeric',
-          minute: 'numeric',
-        })}
-      </p>
-    </article>
   );
 }
