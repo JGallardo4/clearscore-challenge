@@ -25,9 +25,21 @@ export default function IdeasContextProvider({
   const [ideas, setIdeas] = useState<IIdea[]>([
     {
       id: 0,
-      title: 'My first idea',
+      title: 'b',
       description: 'This is the first idea',
-      lastUpdated: new Date(),
+      lastUpdated: new Date('1995-01-17T03:24:00'),
+    },
+    {
+      id: 1,
+      title: 'c',
+      description: 'This is the first idea',
+      lastUpdated: new Date('1995-02-17T03:24:00'),
+    },
+    {
+      id: 2,
+      title: 'a',
+      description: 'This is the first idea',
+      lastUpdated: new Date('1995-03-17T03:24:00'),
     },
   ]);
 
@@ -54,5 +66,6 @@ export function useIdeasContext() {
   if (!context) {
     throw new Error('IdeasContext should be used within IdeasContextProvider');
   }
+
   return context;
 }
