@@ -1,8 +1,8 @@
 'use client';
 
-import { Form, Field, ErrorMessage, Formik } from 'formik';
+import { Form, Field, ErrorMessage, Formik, FormikHelpers } from 'formik';
 import styles from '@/styles/idea.module.sass';
-import React, { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useIdeasContext } from '@/contexts/IdeasContext';
 
 type IdeaFormProps = {
@@ -62,7 +62,10 @@ export default function IdeaForm({ isNewIdea, ideaId }: IdeaFormProps) {
 
           return errors;
         }}
-        onSubmit={(values: FormValues) => {
+        onSubmit={(
+          values: FormValues,
+          { setSubmitting }: FormikHelpers<FormValues>
+        ) => {
           if (isNewIdea) {
             setIdeas([
               ...ideas,
@@ -89,6 +92,8 @@ export default function IdeaForm({ isNewIdea, ideaId }: IdeaFormProps) {
 
             setIdeas(newIdeas);
           }
+          setSubmitting(false);
+          setIsOpen(false);
         }}
       >
         {({ isSubmitting }) => (
