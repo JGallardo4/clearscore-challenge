@@ -2,7 +2,7 @@
 
 import { Form, Field, ErrorMessage, Formik } from 'formik';
 import styles from '@/styles/idea.module.sass';
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { useIdeasContext } from '@/contexts/IdeasContext';
 
 type IdeaFormProps = {
@@ -29,35 +29,6 @@ export default function IdeaForm({ isNewIdea, ideaId }: IdeaFormProps) {
     initialValues = { title: idea.title, description: idea.description };
   }
 
-  const onSubmit = (values: FormValues) => {
-    if (isNewIdea) {
-      setIdeas([
-        ...ideas,
-        {
-          id: ideas.length,
-          title: values.title,
-          description: values.description,
-          lastUpdated: new Date(),
-        },
-      ]);
-    } else {
-      let newIdeas = ideas.map((idea) => {
-        if (idea.id === ideaId) {
-          return {
-            ...idea,
-            title: values.title,
-            description: values.description,
-            lastUpdated: new Date(),
-          };
-        } else {
-          return idea;
-        }
-      }) as IIdea[];
-
-      setIdeas(newIdeas);
-    }
-  };
-
   return !isOpen ? (
     <button
       onClick={() => {
@@ -79,7 +50,7 @@ export default function IdeaForm({ isNewIdea, ideaId }: IdeaFormProps) {
       <Formik
         initialValues={initialValues}
         validate={(values) => {
-          const errors = { title: '', description: '' };
+          const errors: any = {};
 
           if (!values.title) {
             errors.title = 'Required';
@@ -91,11 +62,43 @@ export default function IdeaForm({ isNewIdea, ideaId }: IdeaFormProps) {
 
           return errors;
         }}
-        onSubmit={onSubmit}
+        onSubmit={(values: FormValues) => {
+          if (isNewIdea) {
+            setIdeas([
+              ...ideas,
+              {
+                id: ideas.length,
+                title: values.title,
+                description: values.description,
+                lastUpdated: new Date(),
+              },
+            ]);
+          } else {
+            let newIdeas = ideas.map((idea) => {
+              if (idea.id === ideaId) {
+                return {
+                  ...idea,
+                  title: values.title,
+                  description: values.description,
+                  lastUpdated: new Date(),
+                };
+              } else {
+                return idea;
+              }
+            }) as IIdea[];
+
+            setIdeas(newIdeas);
+          }
+        }}
       >
         {({ isSubmitting }) => (
           <Form>
-            <Field type='title' placeholder='New title' name='title' />
+            <Field
+              type='title'
+              placeholder='New title'
+              name='title'
+              autoFocus={true}
+            />
             <ErrorMessage name='title' component='div' />
 
             <Field
@@ -108,7 +111,9 @@ export default function IdeaForm({ isNewIdea, ideaId }: IdeaFormProps) {
             />
 
             {/* Only show character count after user's input has reached the specified percentage of limit */}
-            {descriptionLength >= MAX_CHARACTERS_DESCRIPTION * MAX_CHARACTERS_DESCRIPTION_COUNTER_THRESHOLD && (
+            {descriptionLength >=
+              MAX_CHARACTERS_DESCRIPTION *
+                MAX_CHARACTERS_DESCRIPTION_COUNTER_THRESHOLD && (
               <p>{`Character count: ${descriptionLength}/${MAX_CHARACTERS_DESCRIPTION}`}</p>
             )}
 

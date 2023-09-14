@@ -8,7 +8,7 @@
 - ✔ Add the ability to sort ideas by creation date or alphabetically
 - ✔ Utilise the localStorage API to persist current state when the page is refreshed.
 - ✔ Add a character countdown as the user is approaching the limit of their description text.
-- X New ideas should have the title field focused to prompt user to begin typing.
+- ✔ New ideas should have the title field focused to prompt user to begin typing.
 - X Add an unobtrusive notification when an update is made to a tile.
 - X Fully responsive
 - X Comments where required
