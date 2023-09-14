@@ -12,6 +12,7 @@ type IdeaFormProps = {
 
 export default function IdeaForm({ isNewIdea, ideaId }: IdeaFormProps) {
   const MAX_CHARACTERS_DESCRIPTION = 140;
+  const MAX_CHARACTERS_DESCRIPTION_COUNTER_THRESHOLD = 0.8;
   const [descriptionLength, setDescriptionLength] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const { ideas, setIdeas } = useIdeasContext();
@@ -105,7 +106,12 @@ export default function IdeaForm({ isNewIdea, ideaId }: IdeaFormProps) {
                 setDescriptionLength(event.currentTarget.value.length);
               }}
             />
-            <p>{`Character count: ${descriptionLength}/${MAX_CHARACTERS_DESCRIPTION}`}</p>
+
+            {/* Only show character count after user's input has reached the specified percentage of limit */}
+            {descriptionLength >= MAX_CHARACTERS_DESCRIPTION * MAX_CHARACTERS_DESCRIPTION_COUNTER_THRESHOLD && (
+              <p>{`Character count: ${descriptionLength}/${MAX_CHARACTERS_DESCRIPTION}`}</p>
+            )}
+
             <ErrorMessage name='description' component='div' />
 
             <button type='submit' disabled={isSubmitting}>
