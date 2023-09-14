@@ -2,7 +2,6 @@
 
 import styles from '@/styles/idea.module.sass';
 import { useIdeasContext } from '@/contexts/IdeasContext';
-import { useState } from 'react';
 import IdeaForm from './idea-form';
 
 type IdeaProps = { ideaId: number };
